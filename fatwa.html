@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salafi Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 100px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            outline: none;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            outline: none;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 20px;
+        }
+
+        .dark-mode-switch {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .dark-mode-switch label {
+            margin-right: 10px;
+            font-size: 0.8rem;
+            color: #333;
+        }
+
+        .dark-mode-switch input[type="checkbox"] {
+            display: none;
+        }
+
+        .slider {
+            position: relative;
+            width: 40px;
+            height: 20px;
+            background-color: #ccc;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: '';
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            top: 2px;
+            background-color: #fff;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        input[type="checkbox"]:checked + .slider {
+            background-color: #007bff;
+        }
+
+        input[type="checkbox"]:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .dark-mode {
+            background-color: #333;
+            color: #f4f4f4;
+        }
+
+        .dark-mode .container {
+            background-color: #444;
+            color: #f4f4f4;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .dark-mode input[type="text"] {
+            background-color: #555;
+            color: #f4f4f4;
+            border: 1px solid #666;
+        }
+
+        .dark-mode select {
+            background-color: #555;
+            color: #f4f4f4;
+            border: 1px solid #666;
+        }
+
+        .dark-mode footer {
+            color: #bbb;
+        }
+
+        @media (max-width: 768px) {
+            .dark-mode-switch {
+                top: unset;
+                bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Salafi Search</h1>
+        <form id="salafiSearchForm" method="get" target="_blank">
+            <input type="text" name="q" placeholder="Search..." lang="en">
+            <select name="searchType">
+                <option value="fatwa">Fatwa</option>
+                <option value="hadith">Hadith</option>
+            </select>
+        </form>
+    </div>
+    <footer>
+        Powered by <a href="https://binbaz.org.sa/">Ibn Baz</a>, <a href="https://www.islamweb.net/en/">Islam Web</a>, and <a href="https://sunnah.com/">Sunnah.com</a>
+    </footer>
+    <div class="dark-mode-switch">
+        <label for="darkModeToggle">Dark Mode</label>
+        <input type="checkbox" id="darkModeToggle">
+        <div class="slider"></div>
+    </div>
+    <script>
+        const form = document.getElementById('salafiSearchForm');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const queryInput = form.querySelector('input[name="q"]');
+            const query = queryInput.value.trim();
+            const searchType = form.querySelector('select[name="searchType"]').value;
+            let url;
+            if (searchType === 'hadith') {
+                url = 'https://sunnah.com/search?q=';
+            } else {
+                url = 'https://www.islamweb.net/en/?page=websearch&srchsett=0&myRange=25&exact=0&extended=0&synonym=0&type=7&q=';
+            }
+            const encodedQuery = encodeURIComponent(query);
+            window.open(`${url}${encodedQuery}`, '_blank');
+        });
+
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('change', function() {
+            document.body.classList.toggle('dark-mode');
+        });
+    </script>
+</body>
+</html>
